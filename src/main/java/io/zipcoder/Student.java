@@ -24,9 +24,9 @@ public class Student {
 
     public String getExamScores() {
         StringBuilder scores = new StringBuilder();
-        scores.append("Exam Scores:%n");
+        scores.append("Exam Scores:\n");
         for (int i = 0; i < examScores.size(); i++) {
-            String str = String.format("%tExam %d -> %d%n", i, examScores.get(i) + 1);
+            String str = String.format("\tExam %d -> %.0f\n", i + 1,  examScores.get(i));
             scores.append(str);
         }
         return scores.toString();
@@ -36,11 +36,23 @@ public class Student {
         examScores.add(examScore);
     }
 
-    public void setExamScore(int examNumber, double newScore) throws IllegalArgumentException {
+    public double getExamScore(int examNumber) throws IllegalArgumentException {
         if (examNumber > examScores.size() || examNumber < 1) {
             throw new IllegalArgumentException();
         }
-        examScores.set(examNumber - 1, newScore);
+        return examScores.get(examNumber - 1);
+    }
+
+    public void setExamScore(int examNumber, double newScore) throws IllegalArgumentException {
+        if (examNumber - 1 > examScores.size() || examNumber < 1) {
+            throw new IllegalArgumentException();
+        }
+        if (examNumber - 1 == examScores.size()) {
+            addExamScore(newScore);
+        } else {
+            examScores.set(examNumber - 1, newScore);
+        }
+
     }
 
     public double getAverageExamScore() {
@@ -57,12 +69,17 @@ public class Student {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-//    @Override
-//    public String toString() {
-//        StringBuilder res = new StringBuilder();
-//        Double avgScore = getAverageExamScore();
-//        //String examScores =
-//        return;
-//    }
+    @Override
+    public String toString() {
+        //StringBuilder res = new StringBuilder();
+        Double avgScore = getAverageExamScore();
+        String examScores = getExamScores();
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        String out = String.format("Student Name: %s %s\n\t Average Score: %.0f\n" +
+                "%s", firstName, lastName, avgScore, examScores);
+
+        return out;
+    }
 
 }
