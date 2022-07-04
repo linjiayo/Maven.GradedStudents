@@ -2,8 +2,9 @@ package io.zipcoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
-public class Student {
+public class Student implements Comparable<Student> {
     String firstName;
     String lastName;
     ArrayList<Double> examScores;
@@ -82,4 +83,13 @@ public class Student {
         return out;
     }
 
+    public int compareTo(Student student) {
+        double diff = this.getAverageExamScore() - student.getAverageExamScore();
+        if (diff < 0) {
+            return -1;
+        } else if (diff > 0) {
+            return 1;
+        }
+        return student.getFirstName().compareTo(this.getFirstName());
+    }
 }
